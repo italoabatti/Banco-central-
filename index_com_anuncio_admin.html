@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Banco Digital</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f7fa;
+    }
+    main {
+      max-width: 500px;
+      margin: 40px auto;
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    h2, h3 {
+      margin-bottom: 10px;
+      color: #1d3557;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #457b9d;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1d3557;
+    }
+    .link {
+      text-align: center;
+      color: #457b9d;
+      cursor: pointer;
+      text-decoration: underline;
+      margin-top: 12px;
+    }
+    .saldo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #1d3557;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    .comprovante {
+      background: #f1f1f1;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 20px;
+      text-align: left;
+    }
+  </style>
+
+  <!-- Firebase + jsPDF -->
+  <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-app-compat.js">
+async function excluirConta() {
+  const cpf = document.getElementById("cpfExcluir").value.replace(/\D/g, "");
+
+  if (!cpf) return alert("Digite um CPF");
+
+  const snap = await db.collection("contas").where("cpf", "==", cpf).get();
+
+  if (snap.empty) {
+    return alert("Conta não encontrada.");
+  }
+
+  const batch = db.batch();
+  snap.forEach(doc => {
+    batch.delete(doc.ref);
+  });
+
+  await batch.commit();
+
+  alert("Conta(s) excluída(s) com sucesso!");
+  document.getElementById("cpfExcluir").value = "";
+}
+
+
+</script>
+  <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore-compat.js">
+async function excluirConta() {
+  const cpf = document.getElementById("cpfExcluir").value.replace(/\D/g, "");
+
+  if (!cpf) return alert("Digite um CPF");
+
+  const snap = await db.collection("contas").where("cpf", "==", cpf).get();
+
+  if (snap.empty) {
+    return alert("Conta não encontrada.");
+  }
+
+  const batch = db.batch();
+  snap.forEach(doc => {
+    batch.delete(doc.ref);
+  });
+
+  await batch.commit();
+
+  alert("Conta(s) excluída(s) com sucesso!");
+  document.getElementById("cpfExcluir").value = "";
+}
+
+
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+async function excluirConta() {
+  const cpf = document.getElementById("cpfExcluir").value.replace(/\D/g, "");
+
+  if (!cpf) return alert("Digite um CPF");
+
+  const snap = await db.collection("contas").where("cpf", "==", cpf).get();
+
+  if (snap.empty) {
+    return alert("Conta não encontrada.");
+  }
+
+  const batch = db.batch();
+  snap.forEach(doc => {
+    batch.delete(doc.ref);
+  });
+
+  await batch.commit();
+
+  alert("Conta(s) excluída(s) com sucesso!");
+  document.getElementById("cpfExcluir").value = "";
+}
+
+
+</script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDL34-MPaY1wiiBrTp7osTL411cnFFULV0",
+      authDomain: "banco-central-bfcae.firebaseapp.com",
+      projectId: "banco-central-bfcae",
+      storageBucket: "banco-central-bfcae.appspot.com",
+      messagingSenderId: "183879035492",
+      appId: "1:183879035492:web:816a003c7d0f91722ecd71"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    let contaLogada = null;
+
+    function gerarNumeroConta() {
+      return Math.floor(10000 + Math.random() * 90000).toString();
+    }
+
+    function mascaraCpfCnpj(valor) {
+      valor = valor.replace(/\D/g, "");
+      if (valor.length <= 11) {
+        return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+      } else {
+        return valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+      }
+    }
+  
+async function excluirConta() {
+  const cpf = document.getElementById("cpfExcluir").value.replace(/\D/g, "");
+
+  if (!cpf) return alert("Digite um CPF");
+
+  const snap = await db.collection("contas").where("cpf", "==", cpf).get();
+
+  if (snap.empty) {
+    return alert("Conta não encontrada.");
+  }
+
+  const batch = db.batch();
+  snap.forEach(doc => {
+    batch.delete(doc.ref);
+  });
+
+  await batch.commit();
+
+  alert("Conta(s) excluída(s) com sucesso!");
+  document.getElementById("cpfExcluir").value = "";
+}
+
+
+</script>
+</head>
+  <body>
+  <main id="loginForm">
+    <h2>Login</h2>
+    <input id="cpfLogin" placeholder="CPF" />
+    <input id="agenciaLogin" placeholder="Agência" />
+    <button onclick="login()">Entrar</button>
+    <div class="link" onclick="aparecerCriarConta()">Criar nova conta</div>
+  </main>
+
+  <main id="criarContaForm" style="display:none;">
+    <h2>Criar Conta</h2>
+    <input id="novoNome" placeholder="Nome completo" />
+    <input id="novoCpf" placeholder="CPF ou CNPJ" oninput="this.value = mascaraCpfCnpj(this.value)" />
+    <input id="novoAgencia" placeholder="Agência" />
+    <button onclick="criarConta()">Criar Conta</button>
+    <div class="link" onclick="aparecerLogin()">Voltar para login</div>
+  </main>
+
+  <main id="painel" style="display:none; text-align:center;">
+    <h2 id="usuarioNome"></h2>
+    <div id="dadosConta" style="color: gray; margin-bottom: 10px;"></div>
+    <div class="saldo" id="usuarioSaldo">R$ 0,00</div>
+    <button onclick="assistirAnuncio()" style="margin-top: 10px;">📺 Assistir anúncio (ganhar R$ 10,00)</button>
+    <section style="text-align:left;">
+      <h3>Transferência</h3>
+      <input id="destinoAgencia" placeholder="Agência destino" />
+      <input id="destinoConta" placeholder="Número da conta destino" />
+      <input id="valorTransferido" placeholder="Valor (R$)" type="number" />
+      <button onclick="transferir()">Transferir</button>
+    </section>
+
+    <div id="comprovante" class="comprovante"></div>
+
+    <section style="text-align:left;">
+      <h3>Extrato</h3>
+      <button onclick="verExtrato()">🔄 Atualizar Extrato</button>
+      <div id="extrato"></div>
+    </section>
+
+    
+<section id="painelAdmin" style="display:none; text-align:left; margin-top: 40px;">
+  <h3>🗑️ Excluir Conta (somente para Diretor)</h3>
+  <input id="cpfExcluir" placeholder="CPF para excluir" oninput="this.value = mascaraCpfCnpj(this.value)" />
+  <button onclick="excluirConta()">Excluir Conta</button>
+</section>
+
+
+<section style="text-align:left; margin-top: 40px;">
+      <h3>➕ Criar nova conta</h3>
+      <input id="painelNovoNome" placeholder="Nome completo" />
+      <input id="painelNovoCpf" placeholder="CPF ou CNPJ" oninput="this.value = mascaraCpfCnpj(this.value)" />
+      <input id="painelNovoAgencia" placeholder="Agência" />
+      <button onclick="criarContaNoPainel()">Criar Conta</button>
+    </section>
+  </main>
+    <script>
+  function aparecerCriarConta() {
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("criarContaForm").style.display = "block";
+  }
+
+  function aparecerLogin() {
+    document.getElementById("criarContaForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+  }
+
+  async function criarConta() {
+    const nome = document.getElementById("novoNome").value;
+    const cpf = document.getElementById("novoCpf").value.replace(/\D/g, "");
+    const agencia = document.getElementById("novoAgencia").value;
+
+    if (!nome || !cpf || !agencia) return alert("Preencha todos os campos");
+
+    const snap = await db.collection("contas").where("cpf", "==", cpf).get();
+    if (!snap.empty) {
+      return alert("Já existe uma conta com este CPF.");
+    }
+
+    const conta = gerarNumeroConta();
+    const id = `${agencia}-${conta}`;
+
+    await db.collection("contas").doc(id).set({
+      nome, cpf, agencia, conta, saldo: 100, cargo: "USUARIO"
+    });
+
+    alert("Conta criada com sucesso!");
+    aparecerLogin();
+  }
+
+  async function criarContaNoPainel() {
+    const nome = document.getElementById("painelNovoNome").value;
+    const cpf = document.getElementById("painelNovoCpf").value.replace(/\D/g, "");
+    const agencia = document.getElementById("painelNovoAgencia").value;
+
+    if (!nome || !cpf || !agencia) return alert("Preencha todos os campos");
+
+    const snap = await db.collection("contas").where("cpf", "==", cpf).get();
+    if (!snap.empty) {
+      return alert("Já existe uma conta com este CPF.");
+    }
+
+    const conta = gerarNumeroConta();
+    const id = `${agencia}-${conta}`;
+
+    await db.collection("contas").doc(id).set({
+      nome, cpf, agencia, conta, saldo: 100, cargo: "USUARIO"
+    });
+
+    alert("Conta criada com sucesso!");
+    document.getElementById("painelNovoNome").value = "";
+    document.getElementById("painelNovoCpf").value = "";
+    document.getElementById("painelNovoAgencia").value = "";
+  }
+
+  async function login() {
+    const cpf = document.getElementById("cpfLogin").value.replace(/\D/g, "");
+    const agencia = document.getElementById("agenciaLogin").value;
+
+    const snap = await db.collection("contas")
+      .where("cpf", "==", cpf)
+      .where("agencia", "==", agencia)
+      .get();
+
+    if (snap.empty) return alert("Conta não encontrada");
+
+    const ref = snap.docs[0];
+    contaLogada = ref.data();
+    contaLogada.id = ref.id;
+
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("painel").style.display = "block";
+    document.getElementById("usuarioNome").innerText = contaLogada.nome;
+    document.getElementById("dadosConta").innerText = `Agência ${contaLogada.agencia} | Conta ${contaLogada.conta}`;
+    
+    document.getElementById("usuarioSaldo").innerText = `R$ ${contaLogada.saldo.toFixed(2)}`;
+    if (contaLogada.cargo === "DIRETOR") {
+      document.getElementById("painelAdmin").style.display = "block";
+    }
+    
+  }
+
+  async function transferir() {
+    const destinoAgencia = document.getElementById("destinoAgencia").value;
+    const destinoConta = document.getElementById("destinoConta").value;
+    const valor = parseFloat(document.getElementById("valorTransferido").value);
+
+    if (!destinoAgencia || !destinoConta || isNaN(valor)) return alert("Preencha os campos corretamente");
+    if (valor <= 0 || valor > contaLogada.saldo) return alert("Saldo insuficiente");
+
+    const q = db.collection("contas")
+      .where("agencia", "==", destinoAgencia)
+      .where("conta", "==", destinoConta);
+
+    const snap = await q.get();
+    if (snap.empty) return alert("Conta destino não encontrada");
+
+    const refDestino = snap.docs[0].ref;
+    const contaDestino = snap.docs[0].data();
+
+    contaLogada.saldo -= valor;
+    contaDestino.saldo += valor;
+
+    await db.collection("contas").doc(contaLogada.id).set(contaLogada);
+    await refDestino.set(contaDestino);
+
+    const dataHora = new Date().toLocaleString();
+
+    await db.collection("extratos").add({
+      tipo: "Transferência",
+      valor,
+      origem: contaLogada.agencia + "-" + contaLogada.conta,
+      destino: destinoAgencia + "-" + destinoConta,
+      data: new Date().toISOString(),
+      autor: contaLogada.nome
+    });
+
+    document.getElementById("usuarioSaldo").innerText = `R$ ${contaLogada.saldo.toFixed(2)}`;
+    document.getElementById("comprovante").innerHTML = `
+      <h4>Comprovante de Transferência</h4>
+      <strong>Destinatário:</strong> ${contaDestino.nome}<br>
+      <strong>Agência:</strong> ${destinoAgencia} | <strong>Conta:</strong> ${destinoConta}<br>
+      <strong>Valor:</strong> R$ ${valor.toFixed(2)}<br>
+      <strong>Data:</strong> ${dataHora}<br><br>
+      <button onclick="baixarComprovantePDF('${contaDestino.nome}', '${destinoAgencia}', '${destinoConta}', ${valor}, '${dataHora}')">📄 Baixar PDF</button>
+    `;
+
+    document.getElementById("valorTransferido").value = "";
+  }
+
+  function baixarComprovantePDF(nome, agencia, conta, valor, data) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFontSize(14);
+    doc.text("Comprovante de Transferência", 20, 20);
+    doc.setFontSize(12);
+    doc.text(`Destinatário: ${nome}`, 20, 35);
+    doc.text(`Agência: ${agencia} | Conta: ${conta}`, 20, 45);
+    doc.text(`Valor: R$ ${valor.toFixed(2)}`, 20, 55);
+    doc.text(`Data: ${data}`, 20, 65);
+    doc.text("Emitido por Banco Digital", 20, 85);
+    doc.save(`Comprovante-${agencia}-${conta}.pdf`);
+  }
+
+  async function verExtrato() {
+    const snap = await db.collection("extratos")
+      .where("origem", "==", contaLogada.agencia + "-" + contaLogada.conta)
+      .get();
+
+    const div = document.getElementById("extrato");
+    if (snap.empty) return div.innerHTML = "<p>Nenhuma movimentação.</p>";
+
+    let html = "<ul>";
+    snap.forEach(doc => {
+      const e = doc.data();
+      html += `<li>${e.tipo} de R$ ${e.valor.toFixed(2)} para ${e.destino} em ${new Date(e.data).toLocaleString()}</li>`;
+    });
+    html += "</ul>";
+    div.innerHTML = html;
+  }
+
+async function assistirAnuncio() {
+  alert("Você assistiu ao anúncio! R$ 10,00 foram adicionados à sua conta.");
+  contaLogada.saldo += 10;
+
+  await db.collection("contas").doc(contaLogada.id).set(contaLogada);
+
+  await db.collection("extratos").add({
+    tipo: "Bônus por anúncio",
+    valor: 10,
+    origem: contaLogada.agencia + "-" + contaLogada.conta,
+    destino: contaLogada.agencia + "-" + contaLogada.conta,
+    data: new Date().toISOString(),
+    autor: contaLogada.nome
+  });
+
+  document.getElementById("usuarioSaldo").innerText = `R$ ${contaLogada.saldo.toFixed(2)}`;
+}
+
+
+async function excluirConta() {
+  const cpf = document.getElementById("cpfExcluir").value.replace(/\D/g, "");
+
+  if (!cpf) return alert("Digite um CPF");
+
+  const snap = await db.collection("contas").where("cpf", "==", cpf).get();
+
+  if (snap.empty) {
+    return alert("Conta não encontrada.");
+  }
+
+  const batch = db.batch();
+  snap.forEach(doc => {
+    batch.delete(doc.ref);
+  });
+
+  await batch.commit();
+
+  alert("Conta(s) excluída(s) com sucesso!");
+  document.getElementById("cpfExcluir").value = "";
+}
+
+
+</script>
+</body>
+</html>
